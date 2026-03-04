@@ -22,3 +22,12 @@ Supabase no configurado. Se omitira guardado en Supabase.
  POST /api/registrar-participante 200 in 1101ms (compile: 7ms, render: 1095ms)
  GET /retos/leer-un-libro 200 in 171ms (compile: 44ms, generate-params: 22ms, render: 128ms)
  GET /retos/leer-un-libro 200 in 2.0s (compile: 859ms, generate-params: 39ms, render: 1144ms)
+ GET /retos/leer-un-libro 200 in 578ms (compile: 47ms, generate-params: 30ms, render: 531ms)
+ GET /retos/leer-un-libro 200 in 928ms (compile: 126ms, generate-params: 60ms, render: 802ms)
+ GET /retos/leer-un-libro 200 in 292ms (compile: 130ms, generate-params: 111µs, render: 162ms)
+ GET /retos/leer-un-libro 200 in 1017ms (compile: 137ms, generate-params: 74ms, render: 880ms)
+Supabase no configurado. Se omitira guardado en Supabase.
+ POST /api/registrar-participante 200 in 5.3s (compile: 314ms, render: 5.0s)
+ GET /retos/leer-un-libro 200 in 174ms (compile: 17ms, generate-params: 12ms, render: 157ms)
+Supabase no configurado. Se omitira guardado en Supabase.
+ POST /api/registrar-participante 200 in 5.2s (compile: 5ms, render: 5.2s)
