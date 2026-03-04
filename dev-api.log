@@ -49,3 +49,5 @@ Supabase no configurado. Se omitira guardado en Supabase.
  GET /retos/leer-un-libro 200 in 120ms (compile: 9ms, generate-params: 95µs, render: 111ms)
  GET /retos/leer-un-libro 200 in 137ms (compile: 30ms, generate-params: 18ms, render: 107ms)
  GET /retos/leer-un-libro 200 in 129ms (compile: 9ms, generate-params: 59µs, render: 120ms)
+ GET /retos/leer-un-libro 200 in 68ms (compile: 18ms, generate-params: 10ms, render: 51ms)
+ GET /retos/leer-un-libro 200 in 78ms (compile: 8ms, generate-params: 80µs, render: 70ms)
