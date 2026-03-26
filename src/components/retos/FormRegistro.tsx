@@ -16,6 +16,7 @@ const participanteSchema = z.object({
 
 const schema = z
   .object({
+    modalidad: z.enum(["racha", "mas"]),
     nombre_apodo: z.string().min(2, "Ingresa tu nombre o apodo"),
     telefono_codigo: z.string().min(2, "Selecciona un codigo"),
     telefono_numero: z
@@ -64,6 +65,15 @@ function buildParticipantRows(
   );
 }
 
+const MODALIDAD_LABEL: Record<"racha" | "mas", string> = {
+  racha: "El que no pierda la racha",
+  mas: "El que mas",
+};
+
+function buildTituloPorModalidad(tituloBase: string, modalidad: "racha" | "mas") {
+  return `${MODALIDAD_LABEL[modalidad]}: ${tituloBase}`;
+}
+
 export function FormRegistro({ reto }: FormRegistroProps) {
   const [estado, setEstado] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -78,6 +88,7 @@ export function FormRegistro({ reto }: FormRegistroProps) {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
+      modalidad: "racha",
       telefono_codigo: "+57",
       num_participantes: 1,
       participantes: [{ nombre: "", telefono_codigo: "+57", telefono_numero: "" }],
@@ -87,10 +98,12 @@ export function FormRegistro({ reto }: FormRegistroProps) {
   });
 
   const numParticipantes = watch("num_participantes");
+  const modalidad = watch("modalidad");
   const nombreApodo = watch("nombre_apodo");
   const telefonoCodigo = watch("telefono_codigo");
   const telefonoNumero = watch("telefono_numero");
   const safeCount = Math.max(1, Math.min(30, Number(numParticipantes) || 1));
+  const tituloDinamico = buildTituloPorModalidad(reto.titulo, modalidad || "racha");
 
   useEffect(() => {
     const current = getValues("participantes") || [];
@@ -135,7 +148,8 @@ export function FormRegistro({ reto }: FormRegistroProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           reto_slug: reto.slug,
-          reto_titulo: reto.titulo,
+          reto_titulo: tituloDinamico,
+          reto_modalidad: modalidad,
           reto_meta_diaria: reto.meta_diaria,
           reto_duracion: reto.duracion_dias,
           nombre_apodo: data.nombre_apodo,
@@ -225,6 +239,27 @@ export function FormRegistro({ reto }: FormRegistroProps) {
               </p>
             )}
           </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border p-4 sm:p-5" style={{ borderColor: "#E9E1D4", backgroundColor: "#FFFCF8" }}>
+        <h3 className="mb-4 text-xl uppercase" style={{ fontFamily: "var(--font-bebas)", color: "#1A1A1A" }}>
+          Modalidad
+        </h3>
+
+        <div>
+          <label className={labelClass} style={{ fontFamily: "var(--font-dm-sans)" }}>
+            Selecciona como se gana este reto *
+          </label>
+          <select {...register("modalidad")} className={fieldClass} style={fieldStyle}>
+            <option value="racha">El que no pierda la racha</option>
+            <option value="mas">El que mas</option>
+          </select>
+          {errors.modalidad && (
+            <p className="mt-1 text-sm text-red-500" style={{ fontFamily: "var(--font-dm-sans)" }}>
+              {errors.modalidad.message}
+            </p>
+          )}
         </div>
       </div>
 
@@ -324,7 +359,9 @@ export function FormRegistro({ reto }: FormRegistroProps) {
       </div>
 
       <div className="rounded-xl border p-4 text-sm" style={{ borderColor: "#E8DCCA", backgroundColor: "#FFF7EE", fontFamily: "var(--font-dm-sans)", color: "#6A5E54" }}>
-        <strong>Reto seleccionado:</strong> {reto.titulo}
+        <strong>Modalidad:</strong> {MODALIDAD_LABEL[modalidad || "racha"]}
+        <br />
+        <strong>Reto seleccionado:</strong> {tituloDinamico}
         <br />
         <strong>Meta diaria:</strong> {reto.meta_diaria}
         <br />

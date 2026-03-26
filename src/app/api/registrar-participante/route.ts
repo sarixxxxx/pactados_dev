@@ -6,6 +6,7 @@ import { createSupabaseClient } from "@/lib/supabase";
 type RegistroBody = {
   reto_slug: string;
   reto_titulo: string;
+  reto_modalidad?: string;
   reto_meta_diaria: string;
   reto_duracion?: number;
   nombre_apodo: string;
@@ -60,6 +61,7 @@ export async function POST(req: Request) {
     const {
       reto_slug,
       reto_titulo,
+      reto_modalidad,
       reto_meta_diaria,
       reto_duracion,
       nombre_apodo,
@@ -116,7 +118,7 @@ export async function POST(req: Request) {
       condiciones: consecuenciaTexto,
       num_participantes,
       nombres_amigos: participantesInfo,
-      mensaje: `Reto: ${reto_titulo} | Meta: ${reto_meta_diaria} | Duracion: ${duracionDias} dias`,
+      mensaje: `Reto: ${reto_titulo} | Modalidad: ${reto_modalidad || "no definida"} | Meta: ${reto_meta_diaria} | Duracion: ${duracionDias} dias`,
     });
 
         if (error) {
@@ -136,6 +138,7 @@ export async function POST(req: Request) {
         fecha_iso: asSheetText(new Date().toISOString()),
         reto_titulo: asSheetText(reto_titulo),
         reto_meta_diaria: asSheetText(reto_meta_diaria),
+        reto_modalidad: asSheetText(reto_modalidad || "no definida"),
         reto_duracion_dias: asSheetText(duracionDias),
         creador_nombre_apodo: asSheetText(nombre_apodo),
         creador_telefono: asSheetText(telefonoCompleto),
@@ -196,6 +199,7 @@ export async function POST(req: Request) {
             <p><strong>Nombre/Apodo:</strong> ${nombre_apodo}</p>
             <p><strong>Telefono:</strong> ${telefonoCompleto}</p>
             <p><strong>Reto:</strong> ${reto_titulo}</p>
+            <p><strong>Modalidad:</strong> ${reto_modalidad || "No definida"}</p>
             <p><strong>Meta diaria:</strong> ${reto_meta_diaria}</p>
             <p><strong>Duracion:</strong> ${duracionDias} dias</p>
             <p><strong>Participantes:</strong> ${num_participantes}</p>

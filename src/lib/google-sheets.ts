@@ -3,6 +3,7 @@ import dns from "node:dns";
 type RegistroSheetsPayload = {
   fecha_iso: string;
   reto_titulo: string;
+  reto_modalidad?: string;
   reto_meta_diaria: string;
   reto_duracion_dias: string;
   creador_nombre_apodo: string;
